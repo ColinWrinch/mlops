@@ -45,31 +45,31 @@ jobs:
     secrets:
       creds: ${{secrets.AZURE_CREDENTIALS}}
       
-  # run-pipeline:
-  #   needs: [get-config, register-environment, create-compute, register-dataset]
-  #   uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
-  #   with:
-  #     resource_group: ${{ needs.get-config.outputs.resource_group }}
-  #     workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
-  #     parameters-file:  mlops/azureml/train/newpipeline.yml
-  #     job-name: mlops-pipeline
-  #   secrets:
-  #     creds: ${{secrets.AZURE_CREDENTIALS}}
-
   run-pipeline:
     needs: [get-config, register-environment, create-compute, register-dataset]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait for resources to be ready
-        run: |
-          # Wait for compute and dataset to be registered
-          # You may want to add a script here that checks the status
-          echo "Waiting for resources to be fully registered before proceeding"
-      - uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
-        with:
-          resource_group: ${{ needs.get-config.outputs.resource_group }}
-          workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
-          parameters-file: mlops/azureml/train/newpipeline.yml
-          job-name: mlops-pipeline
-        secrets:
-          creds: ${{secrets.AZURE_CREDENTIALS}}  
+    uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
+    with:
+      resource_group: ${{ needs.get-config.outputs.resource_group }}
+      workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+      parameters-file:  mlops/azureml/train/newpipeline.yml
+      job-name: mlops-pipeline
+    secrets:
+      creds: ${{secrets.AZURE_CREDENTIALS}}
+
+  # run-pipeline:
+  #   needs: [get-config, register-environment, create-compute, register-dataset]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Wait for resources to be ready
+  #       run: |
+  #         # Wait for compute and dataset to be registered
+  #         # You may want to add a script here that checks the status
+  #         echo "Waiting for resources to be fully registered before proceeding"
+  #     - uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
+  #       with:
+  #         resource_group: ${{ needs.get-config.outputs.resource_group }}
+  #         workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+  #         parameters-file: mlops/azureml/train/newpipeline.yml
+  #         job-name: mlops-pipeline
+  #       secrets:
+  #         creds: ${{secrets.AZURE_CREDENTIALS}}  
