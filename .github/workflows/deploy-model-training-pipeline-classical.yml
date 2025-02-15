@@ -47,41 +47,52 @@ jobs:
 
   run-pipeline:
     needs: [get-config, register-environment, create-compute, register-dataset]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Show the inputs to the run-pipeline job
-        run: |
-          echo "Resource Group: ${{ needs.get-config.outputs.resource_group }}"
-          echo "AML Workspace: ${{ needs.get-config.outputs.aml_workspace }}"
-          echo "Parameter file: mlops/azureml/train/newpipeline.yml"
-          echo "Job name: mlops-pipeline"
+    uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
+    with:
+      resource_group: ${{ needs.get-config.outputs.resource_group }}
+      workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+      parameters-file:  mlops/azureml/train/newpipeline.yml
+      job-name: mlops-pipeline
+    secrets:
+      creds: ${{secrets.AZURE_CREDENTIALS}}
+
+  # run-pipeline:
+  #   needs: [get-config, register-environment, create-compute, register-dataset]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Show the inputs to the run-pipeline job
+  #       run: |
+  #         echo "Resource Group: ${{ needs.get-config.outputs.resource_group }}"
+  #         echo "AML Workspace: ${{ needs.get-config.outputs.aml_workspace }}"
+  #         echo "Parameter file: mlops/azureml/train/newpipeline.yml"
+  #         echo "Job name: mlops-pipeline"
       
-      - name: Check if Compute Target is ready
-        run: |
-          az ml compute show --name cpu-cluster --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
+  #     - name: Check if Compute Target is ready
+  #       run: |
+  #         az ml compute show --name cpu-cluster --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
       
-      - name: Check if Dataset is registered
-        run: |
-          az ml data list --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
+  #     - name: Check if Dataset is registered
+  #       run: |
+  #         az ml data list --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
       
-      - name: Check if Environment is registered
-        run: |
-          az ml environment list --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
+  #     - name: Check if Environment is registered
+  #       run: |
+  #         az ml environment list --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
       
-      - name: Run the pipeline and capture detailed logs
-        run: |
-          echo "Starting pipeline execution..."
-          az ml pipeline run submit --experiment-name mlops-pipeline --file mlops/azureml/train/newpipeline.yml --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
+  #     - name: Run the pipeline and capture detailed logs
+  #       run: |
+  #         echo "Starting pipeline execution..."
+  #         az ml pipeline run submit --experiment-name mlops-pipeline --file mlops/azureml/train/newpipeline.yml --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --verbose
       
-      - name: Run the Pipeline Using the Template
-        uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
-        with:
-          resource_group: ${{ needs.get-config.outputs.resource_group }}
-          workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
-          parameters-file: mlops/azureml/train/newpipeline.yml
-          job-name: mlops-pipeline
-        secrets:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
+  #     - name: Run the Pipeline Using the Template
+  #       uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
+  #       with:
+  #         resource_group: ${{ needs.get-config.outputs.resource_group }}
+  #         workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+  #         parameters-file: mlops/azureml/train/newpipeline.yml
+  #         job-name: mlops-pipeline
+  #       secrets:
+  #         creds: ${{secrets.AZURE_CREDENTIALS}}
 
 
 
