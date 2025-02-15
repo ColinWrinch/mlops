@@ -11,8 +11,11 @@ inputs:
 
 outputs:
   train_data:
+    type: uri_file
   test_data:
+    type: uri_file
   model_info_output_path:
+    type: uri_file
 
 # Settings for the pipeline execution
 settings:
