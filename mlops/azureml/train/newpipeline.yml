@@ -1,25 +1,18 @@
 $schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
 type: pipeline
-
-# Metadata for the pipeline
 display_name: train_vehicle_price_prediction_pipeline  
 experiment_name: vehicle_price_prediction_experiment  
 description: Pipeline to train and register a RandomForest model for vehicle price prediction  
 
-# Define the inputs for the pipeline
 inputs:
-  data:
+  input:
     type: uri_file
     path: azureml:used-cars-data@latest
 
-# Define the outputs for the pipeline
 outputs:
   train_data:
-    type: #uri_folder  
   test_data:
-    type: #uri_folder  
   model_info_output_path:
-    type: #uri_folder  
 
 # Settings for the pipeline execution
 settings:
