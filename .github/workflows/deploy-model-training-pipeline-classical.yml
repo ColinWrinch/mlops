@@ -43,14 +43,31 @@ jobs:
       conda_file: data-science/environment/train-conda.yml
     secrets:
       creds: ${{secrets.AZURE_CREDENTIALS}}
-      
+
   run-pipeline:
     needs: [get-config, register-environment, create-compute, register-dataset]
-    uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
-    with:
-      resource_group: ${{ needs.get-config.outputs.resource_group }}
-      workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
-      parameters-file:  mlops/azureml/train/newpipeline.yml
-      job-name: mlops-pipeline
-    secrets:
-      creds: ${{secrets.AZURE_CREDENTIALS}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for locked resources
+        run: |
+          az ml compute show --name cpu-cluster --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --query "state"
+      
+      - name: Check dataset status
+        run: |
+          az ml data show --name used-cars-data --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --query "status"
+      
+      - name: Check environment status
+        run: |
+          az ml environment show --name train-env --resource-group ${{ needs.get-config.outputs.resource_group }} --workspace-name ${{ needs.get-config.outputs.aml_workspace }} --query "status"
+
+      
+  # run-pipeline:
+  #   needs: [get-config, register-environment, create-compute, register-dataset]
+  #   uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
+  #   with:
+  #     resource_group: ${{ needs.get-config.outputs.resource_group }}
+  #     workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+  #     parameters-file:  mlops/azureml/train/newpipeline.yml
+  #     job-name: mlops-pipeline
+  #   secrets:
+  #     creds: ${{secrets.AZURE_CREDENTIALS}}
