@@ -35,10 +35,12 @@ jobs:
     display_name: Data Preparation  
     code: ../../../data-science/src
     command: >-
+      echo "Starting data preparation job" &&
       python prep.py  
       --data ${{inputs.data}} 
       --train_data ${{outputs.train_data}}
-      --test_data ${{outputs.test_data}} 
+      --test_data ${{outputs.test_data}}  &&
+      echo "Data preparation job completed"
     environment: azureml:used-cars-train-env@latest
     inputs:
       data: ${{parent.inputs.data}}
@@ -80,10 +82,12 @@ jobs:
     display_name: Model Registration  
     code: ../../../data-science/src
     command: >-
+      echo "Starting model registration job" &&    
       python register.py 
       --model_name ${{inputs.model_name}} 
       --model_path ${{inputs.model_path}} 
-      --model_info_output_path ${{outputs.model_info_output_path}}
+      --model_info_output_path ${{outputs.model_info_output_path}} &&
+      echo "Model registration job completed"
     environment: azureml:used-cars-train-env@latest
     inputs:
       model_name: "used_cars_price_prediction_model"
