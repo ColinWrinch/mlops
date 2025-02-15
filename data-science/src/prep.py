@@ -63,17 +63,17 @@ if __name__ == "__main__":
     args = parse_args()    
     logger.info(f"Arguments parsed: {args}")
 
-    lines = [
-        f"data path: {args.data}",  # Print the data path
-        f"Train dataset output path: {args.train_data}",  # Print the train_data path
-        f"Test dataset path: {args.test_data}",  # Print the test_data path
-        f"Test-train ratio: {args.test_train_ratio}",  # Print the test_train_ratio
-    ]
+    # lines = [
+    #     f"data path: {args.data}",  # Print the data path
+    #     f"Train dataset output path: {args.train_data}",  # Print the train_data path
+    #     f"Test dataset path: {args.test_data}",  # Print the test_data path
+    #     f"Test-train ratio: {args.test_train_ratio}",  # Print the test_train_ratio
+    # ]
 
-    for line in lines:
-        print(line)
+    # for line in lines:
+    #     print(line)
     
-    main(args)
+    # main(args)
 
     mlflow.end_run()
     logger.info("Data preparation and ML flow completed")
