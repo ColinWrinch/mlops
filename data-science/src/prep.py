@@ -28,7 +28,7 @@ def main(args):  # Write the function name for the main data preparation logic
     '''Read, preprocess, split, and save datasets'''
     try:
         # Reading Data
-        df = pd.read_csv(args.data)
+        df = pd.read_csv(args.raw_data)
         logger.info("Data read successfully")
 
         # Encode our categorical features Segment 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     logger.info(f"Arguments parsed: {args}")
 
     lines = [
-        f"data path: {args.data}",  # Print the data path
+        f"data path: {args.raw_data}",  # Print the data path
         f"Train dataset output path: {args.train_data}",  # Print the train_data path
         f"Test dataset path: {args.test_data}",  # Print the test_data path
         f"Test-train ratio: {args.test_train_ratio}",  # Print the test_train_ratio
