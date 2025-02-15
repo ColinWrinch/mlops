@@ -5,7 +5,7 @@ experiment_name: vehicle_price_prediction_experiment
 description: Pipeline to train and register a RandomForest model for vehicle price prediction  
 
 inputs:
-  input:
+  data:
     type: uri_file
     path: azureml:used-cars-data@latest
 
