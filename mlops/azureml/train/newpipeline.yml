@@ -1,14 +1,18 @@
 $schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
 type: pipeline
-display_name: train_vehicle_price_prediction_pipeline  # Provide the display name for the pipeline
-experiment_name: vehicle_price_prediction_experiment  # Provide the experiment name
-description: Pipeline to train and register a RandomForest model for vehicle price prediction  # Provide the description for the pipeline 
 
+# Metadata for the pipeline
+display_name: train_vehicle_price_prediction_pipeline  
+experiment_name: vehicle_price_prediction_experiment  
+description: Pipeline to train and register a RandomForest model for vehicle price prediction  
+
+# Define the inputs for the pipeline
 inputs:
   data:
     type: uri_file
     path: azureml:used-cars-data@latest
 
+# Define the outputs for the pipeline
 outputs:
   train_data:
     type: uri_folder  
@@ -17,12 +21,15 @@ outputs:
   model_info_output_path:
     type: uri_folder  
 
+# Settings for the pipeline execution
 settings:
   default_datastore: azureml:workspaceblobstore
   default_compute: azureml:cpu-cluster
   continue_on_step_failure: false
 
+# Define the jobs in the pipeline
 jobs:
+  # Data preparation job
   prep_data:
     name: prep_data_job  
     display_name: Data Preparation  
@@ -38,7 +45,8 @@ jobs:
     outputs:
       train_data: ${{parent.outputs.train_data}}
       test_data: ${{parent.outputs.test_data}}
-
+  
+  # Hyperparameter tuning job
   sweep_step:
     name: sweep_step_job
     display_name: Hyperparameter Tuning 
@@ -57,7 +65,7 @@ jobs:
         values: ["10", "25", "75", "100", "125", "150", "175", "200"]
       max_depth:
         type: choice  
-        values: ["2", "5", "10", "15", "20", "None"]  
+        values: ["2", "5", "10", "15", "20", None]  
     objective:
       goal: minimize
       primary_metric: MSE
@@ -66,6 +74,7 @@ jobs:
       max_concurrent_trials: 10
       timeout: 7200
 
+  # Model registration job
   register_model:
     name: register_model_job  
     display_name: Model Registration  

@@ -12,6 +12,8 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
+logger = logging.getLogger(__name__)
+
 def parse_args():
     '''Parse input arguments'''
     parser = argparse.ArgumentParser()
@@ -24,32 +26,42 @@ def parse_args():
 
 def main(args):  # Write the function name for the main data preparation logic
     '''Read, preprocess, split, and save datasets'''
+    try:
+        # Reading Data
+        df = pd.read_csv(args.data)
+        logger.info("Data read successfully")
 
-    # Reading Data
-    df = pd.read_csv(args.data)
+        # Encode our categorical features Segment 
+        labelEncoder = LabelEncoder()
+        df['Segment'] = labelEncoder.fit_transform(df['Segment'])
+        logger.info("Encoding categorical feature Segment, encoded successfully")
 
-    # Encode our categorical features Segment 
-    labelEncoder = LabelEncoder()
-    df['Segment'] = labelEncoder.fit_transform(df['Segment'])
+        # Split our data into training and testing datasets
+        train_df, test_df = train_test_split(df, test_size=args.test_train_ratio, random_state=99)
+        logger.info("Data split into training and testing datasets")
 
-    # Split our data into training and testing datasets
-    train_df, test_df = train_test_split(df, test_size=args.test_train_ratio, random_state=99)
+        # Save our split data into the file system
+        os.makedirs(args.train_data, exist_ok=True)
+        os.makedirs(args.test_data, exist_ok=True)
+        train_df.to_csv(os.path.join(args.train_data, "used_cars.csv"), index=False)
+        test_df.to_csv(os.path.join(args.test_data, "used_cars.csv"), index=False)
+        logger.info(f"Training and test data saved successfully! training data path {args.train_data} testing data path {args.test_data}")
 
-    # Save our split data into the file system
-    os.makedirs(args.train_data, exist_ok=True)
-    os.makedirs(args.test_data, exist_ok=True)
-    train_df.to_csv(os.path.join(args.train_data, "used_cars.csv"), index=False)
-    test_df.to_csv(os.path.join(args.test_data, "used_cars.csv"), index=False)
-
-    # Configure ML flow log metrics
-    mlflow.log_metric("train_size", len(train_df))
-    mlflow.log_metric("test_size", len(test_df)) 
+        # Configure ML flow log metrics
+        mlflow.log_metric("train_size", len(train_df))
+        mlflow.log_metric("test_size", len(test_df))
+        logger.info(f"Training data size: {len(train_df)}, Testing data size: {len(test_df)}") 
+    except Exception as e:
+        logger.exception("Error in data preparation: {e}", exc_info=True)
+        raise e 
 
 
 if __name__ == "__main__":
     
-    mlflow.start_run()
-    args = parse_args()
+    logger.info("Starting data preparation and ML flow")
+    mlflow.start_run()    
+    args = parse_args()    
+    logger.info(f"Arguments parsed: {args}")
 
     lines = [
         f"data path: {args.data}",  # Print the data path
@@ -64,3 +76,4 @@ if __name__ == "__main__":
     main(args)
 
     mlflow.end_run()
+    logger.info("Data preparation and ML flow completed")
