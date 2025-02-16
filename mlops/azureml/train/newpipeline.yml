@@ -26,22 +26,29 @@ settings:
 # Define the jobs in the pipeline
 jobs:
 
-  # Data preparation job
   prep_data:
     name: prep_data_job  
     display_name: Data Preparation  
     code: ../../../data-science/src
-    command: >-
-      python prep.py  
-      --raw_data ${{inputs.raw_data}} 
-      --train_data ${{outputs.train_data}}
-      --test_data ${{outputs.test_data}}
+    command: python prep.py
     environment: azureml:used-cars-train-env@latest
-    inputs:
-      raw_data: ${{parent.inputs.raw_data}}
-    outputs:
-      train_data: ${{parent.outputs.train_data}}
-      test_data: ${{parent.outputs.test_data}}
+
+  # # Data preparation job
+  # prep_data:
+  #   name: prep_data_job  
+  #   display_name: Data Preparation  
+  #   code: ../../../data-science/src
+  #   command: >-
+  #     python prep.py  
+  #     --raw_data ${{inputs.raw_data}} 
+  #     --train_data ${{outputs.train_data}}
+  #     --test_data ${{outputs.test_data}}
+  #   environment: azureml:used-cars-train-env@latest
+  #   inputs:
+  #     raw_data: ${{parent.inputs.raw_data}}
+  #   outputs:
+  #     train_data: ${{parent.outputs.train_data}}
+  #     test_data: ${{parent.outputs.test_data}}
   
   # # Hyperparameter tuning job
   # sweep_step:
