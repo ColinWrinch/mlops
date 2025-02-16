@@ -1,0 +1,1173 @@
+======Starting Image Build on Serverless Compute======
+The run ID for the image build on serverless compute is imgbldrun_0ec60a4
+Additional logs for the run: https://ml.azure.com/experiments/id/prepare_image/runs/imgbldrun_0ec60a4?wsid=/subscriptions/bf778d5e-4dde-405f-99db-3e84a0359e9e/resourcegroups/default_resource_group/workspaces/gl-msft-program&tid=a2799098-ec71-4199-a883-6274017f5282
+2025-02-16T01:31:14: Logging into Docker registry: f84922bde3724a61869ff1e65532dc0e.azurecr.io
+2025-02-16T01:31:14: WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+2025-02-16T01:31:14: WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+2025-02-16T01:31:14: Configure a credential helper to remove this warning. See
+2025-02-16T01:31:14: https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+2025-02-16T01:31:14: Login Succeeded
+
+
+2025-02-16T01:31:14: Running: ['docker', 'build', '-f', 'azureml-environment-setup/Dockerfile', '.', '-t', 'f84922bde3724a61869ff1e65532dc0e.azurecr.io/azureml/azureml_aac9f3420c9d462db6b8d852deb29c8f', '-t', 'f84922bde3724a61869ff1e65532dc0e.azurecr.io/azureml/azureml_aac9f3420c9d462db6b8d852deb29c8f:6']
+2025-02-16T01:31:14: DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+2025-02-16T01:31:14:             Install the buildx component to build images with BuildKit:
+2025-02-16T01:31:14:             https://docs.docker.com/go/buildx/
+
+2025-02-16T01:31:14: Sending build context to Docker daemon  74.24kB
+2025-02-16T01:31:14: Step 1/17 : FROM mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04@sha256:13b60d3009911d0891a57d7b7c16ab82c5eb2e4c9f568e1a068420addde8f17a
+2025-02-16T01:31:14:  ---> 91ffe02b01e1
+2025-02-16T01:31:14: Step 2/17 : USER root
+2025-02-16T01:31:14:  ---> Running in f183837ccb76
+2025-02-16T01:31:15: Removing intermediate container f183837ccb76
+2025-02-16T01:31:15:  ---> cb286d918821
+2025-02-16T01:31:15: Step 3/17 : RUN mkdir -p $HOME/.cache
+2025-02-16T01:31:15:  ---> Running in 193732cb44b8
+2025-02-16T01:31:17: Removing intermediate container 193732cb44b8
+2025-02-16T01:31:17:  ---> 2a2232cc9eaf
+2025-02-16T01:31:17: Step 4/17 : WORKDIR /
+2025-02-16T01:31:17:  ---> Running in d39fd4069f39
+2025-02-16T01:31:18: Removing intermediate container d39fd4069f39
+2025-02-16T01:31:18:  ---> 3f997be8dac8
+2025-02-16T01:31:18: Step 5/17 : COPY azureml-environment-setup/99brokenproxy /etc/apt/apt.conf.d/
+2025-02-16T01:31:19:  ---> b3621bbac148
+2025-02-16T01:31:19: Step 6/17 : RUN if dpkg --compare-versions `conda --version | grep -oE '[^ ]+$'` lt 4.4.11; then conda install conda==4.4.11; fi
+2025-02-16T01:31:19:  ---> Running in 6c41a9a3828b
+2025-02-16T01:31:22: Removing intermediate container 6c41a9a3828b
+2025-02-16T01:31:22:  ---> a7a13c1610eb
+2025-02-16T01:31:22: Step 7/17 : COPY azureml-environment-setup/mutated_conda_dependencies.yml azureml-environment-setup/mutated_conda_dependencies.yml
+2025-02-16T01:31:24:  ---> 070e470382e0
+2025-02-16T01:31:24: Step 8/17 : RUN ldconfig /usr/local/cuda/lib64/stubs && conda env create -p /azureml-envs/azureml_2c65c0ae06c94a430f88be745e2c1b97 -f azureml-environment-setup/mutated_conda_dependencies.yml && rm -rf "$HOME/.cache/pip" && conda clean -aqy && CONDA_ROOT_DIR=$(conda info --root) && rm -rf "$CONDA_ROOT_DIR/pkgs" && find "$CONDA_ROOT_DIR" -type d -name __pycache__ -exec rm -rf {} + && ldconfig
+2025-02-16T01:31:24:  ---> Running in cdb53953a33f
+2025-02-16T01:31:24: Retrieving notices: - \ done
+2025-02-16T01:31:25: Channels:
+2025-02-16T01:31:25:  - defaults
+2025-02-16T01:31:25:  - anaconda
+2025-02-16T01:31:25:  - conda-forge
+2025-02-16T01:31:25: Platform: linux-64
+2025-02-16T01:31:38: Collecting package metadata (repodata.json): ...working... done
+2025-02-16T01:31:40: Solving environment: ...working... done
+
+2025-02-16T01:31:40: python-3.7.5         | 32.2 MB   |            |   0% 
+2025-02-16T01:31:40: libgcc-ng-11.2.0     | 5.3 MB    |            |   0% [A
+
+2025-02-16T01:31:40: libstdcxx-ng-11.2.0  | 4.7 MB    |            |   0% [A[A
+
+
+2025-02-16T01:31:40: openssl-1.1.1w       | 3.7 MB    |            |   0% [A[A[A
+
+
+
+2025-02-16T01:31:40: tk-8.6.14            | 3.4 MB    |            |   0% [A[A[A[A
+
+
+
+
+2025-02-16T01:31:40: pip-22.3.1           | 2.7 MB    |            |   0% [A[A[A[A[A
+
+
+
+
+
+2025-02-16T01:31:40: setuptools-65.6.3    | 1.1 MB    |            |   0% [A[A[A[A[A[A
+
+
+
+
+
+
+2025-02-16T01:31:40: sqlite-3.33.0        | 1.1 MB    |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+2025-02-16T01:31:40: ncurses-6.4          | 914 KB    |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: xz-5.6.4             | 567 KB    |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libgomp-11.2.0       | 474 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: readline-7.0         | 324 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libedit-3.1.20230828 | 179 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: certifi-2022.12.7    | 150 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: ca-certificates-2024 | 128 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: zlib-1.2.13          | 111 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: wheel-0.38.4         | 63 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libffi-3.2.1         | 48 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: _openmp_mutex-5.1    | 21 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: python-3.7.5         | 32.2 MB   | 2          |   3% 
+2025-02-16T01:31:40: libgcc-ng-11.2.0     | 5.3 MB    | ##7        |  28% [A
+
+2025-02-16T01:31:40: libstdcxx-ng-11.2.0  | 4.7 MB    | ##5        |  26% [A[A
+
+
+2025-02-16T01:31:40: openssl-1.1.1w       | 3.7 MB    | ########1  |  82% [A[A[A
+
+
+
+2025-02-16T01:31:40: python-3.7.5         | 32.2 MB   | #3         |  13% 
+2025-02-16T01:31:40: libgcc-ng-11.2.0     | 5.3 MB    | #########  |  91% [A
+
+
+2025-02-16T01:31:40: openssl-1.1.1w       | 3.7 MB    | ########## | 100% [A[A[A
+
+
+
+
+2025-02-16T01:31:40: pip-22.3.1           | 2.7 MB    |            |   1% [A[A[A[A[A
+
+
+
+2025-02-16T01:31:40: tk-8.6.14            | 3.4 MB    | ########## | 100% [A[A[A[A
+
+
+
+2025-02-16T01:31:40: tk-8.6.14            | 3.4 MB    | ########## | 100% [A[A[A[A
+
+
+
+
+
+2025-02-16T01:31:40: python-3.7.5         | 32.2 MB   | ##3        |  23% 
+
+
+
+
+
+2025-02-16T01:31:40: setuptools-65.6.3    | 1.1 MB    | ########## | 100% [A[A[A[A[A[A
+
+2025-02-16T01:31:40: libstdcxx-ng-11.2.0  | 4.7 MB    | ########## | 100% [A[A
+
+2025-02-16T01:31:40: libstdcxx-ng-11.2.0  | 4.7 MB    | ########## | 100% [A[A
+
+
+
+
+
+
+2025-02-16T01:31:40: sqlite-3.33.0        | 1.1 MB    | 1          |   1% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+2025-02-16T01:31:40: ncurses-6.4          | 914 KB    | 1          |   2% [A[A[A[A[A[A[A[A
+2025-02-16T01:31:40: python-3.7.5         | 32.2 MB   | ###1       |  31% 
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: xz-5.6.4             | 567 KB    | 2          |   3% [A[A[A[A[A[A[A[A[A
+
+
+
+
+2025-02-16T01:31:40: pip-22.3.1           | 2.7 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+2025-02-16T01:31:40: pip-22.3.1           | 2.7 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libgomp-11.2.0       | 474 KB    | 3          |   3% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+2025-02-16T01:31:40: ncurses-6.4          | 914 KB    | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+2025-02-16T01:31:40: sqlite-3.33.0        | 1.1 MB    | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+2025-02-16T01:31:40: sqlite-3.33.0        | 1.1 MB    | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: xz-5.6.4             | 567 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libgomp-11.2.0       | 474 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libedit-3.1.20230828 | 179 KB    | 8          |   9% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: readline-7.0         | 324 KB    | 4          |   5% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: certifi-2022.12.7    | 150 KB    | #          |  11% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libedit-3.1.20230828 | 179 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: certifi-2022.12.7    | 150 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: ca-certificates-2024 | 128 KB    | #2         |  12% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: python-3.7.5         | 32.2 MB   | ###9       |  39% 
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: ca-certificates-2024 | 128 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libffi-3.2.1         | 48 KB     | ###3       |  33% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: wheel-0.38.4         | 63 KB     | ##5        |  25% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: libffi-3.2.1         | 48 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: wheel-0.38.4         | 63 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: _openmp_mutex-5.1    | 21 KB     | #######6   |  77% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: zlib-1.2.13          | 111 KB    | #4         |  14% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: _openmp_mutex-5.1    | 21 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40: zlib-1.2.13          | 111 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:40:  ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:41: python-3.7.5         | 32.2 MB   | ######1    |  61% 
+
+
+2025-02-16T01:31:41: python-3.7.5         | 32.2 MB   | #########8 |  98% 
+
+2025-02-16T01:31:41: libstdcxx-ng-11.2.0  | 4.7 MB    | ########## | 100% [A[A
+
+
+
+
+
+2025-02-16T01:31:41: setuptools-65.6.3    | 1.1 MB    | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+
+2025-02-16T01:31:41: setuptools-65.6.3    | 1.1 MB    | ########## | 100% [A[A[A[A[A[A
+
+
+
+2025-02-16T01:31:41: tk-8.6.14            | 3.4 MB    | ########## | 100% [A[A[A[A
+2025-02-16T01:31:42: python-3.7.5         | 32.2 MB   | ########## | 100% 
+
+
+
+
+
+
+2025-02-16T01:31:42: sqlite-3.33.0        | 1.1 MB    | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: xz-5.6.4             | 567 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: xz-5.6.4             | 567 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: libgomp-11.2.0       | 474 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: libgomp-11.2.0       | 474 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: libedit-3.1.20230828 | 179 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: libedit-3.1.20230828 | 179 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: certifi-2022.12.7    | 150 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: certifi-2022.12.7    | 150 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: readline-7.0         | 324 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: readline-7.0         | 324 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: ca-certificates-2024 | 128 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: ca-certificates-2024 | 128 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: libffi-3.2.1         | 48 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: libffi-3.2.1         | 48 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: wheel-0.38.4         | 63 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: wheel-0.38.4         | 63 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: _openmp_mutex-5.1    | 21 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: _openmp_mutex-5.1    | 21 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+2025-02-16T01:31:42: pip-22.3.1           | 2.7 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42:  ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:42: zlib-1.2.13          | 111 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43: zlib-1.2.13          | 111 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+2025-02-16T01:31:43: ncurses-6.4          | 914 KB    | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+2025-02-16T01:31:43: python-3.7.5         | 32.2 MB   | ########## | 100% 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      
+2025-02-16T01:31:43:                                                      [A
+
+2025-02-16T01:31:43:                                                      [A[A
+
+
+2025-02-16T01:31:43:                                                      [A[A[A
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:                                                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2025-02-16T01:31:43:  done
+2025-02-16T01:31:44: Preparing transaction: / - done
+2025-02-16T01:31:45: Verifying transaction: | / - \ | / - \ | / - done
+2025-02-16T01:31:45: Executing transaction: | / - \ | / done
