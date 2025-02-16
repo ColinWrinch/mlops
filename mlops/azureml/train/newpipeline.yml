@@ -43,50 +43,50 @@ jobs:
       train_data: ${{parent.outputs.train_data}}
       test_data: ${{parent.outputs.test_data}}
   
-  # # Hyperparameter tuning job
-  # sweep_step:
-  #   name: sweep_job
-  #   display_name: sweep-job
-  #   type: sweep
-  #   inputs:
-  #     train_data: ${{parent.jobs.prep_data.outputs.train_data}}
-  #     test_data: ${{parent.jobs.prep_data.outputs.test_data}}
-  #   outputs:
-  #     model_output:
-  #       type: mlflow_model
-  #   sampling_algorithm: random 
-  #   trial: ./train.yml  
-  #   search_space:
-  #     n_estimators:
-  #       type: choice
-  #       values: ["10", "25", "75", "100", "125", "150", "175", "200"]
-  #     max_depth:
-  #       type: choice  
-  #       values: ["2", "5", "10", "15", "20", None]  
-  #   objective:
-  #     goal: minimize
-  #     primary_metric: MSE
-  #   limits:
-  #     max_total_trials: 20
-  #     max_concurrent_trials: 10
-  #     timeout: 7200
+  # Hyperparameter tuning job
+  sweep_step:
+    name: sweep_job
+    display_name: sweep-job
+    type: sweep
+    inputs:
+      train_data: ${{parent.jobs.prep_data.outputs.train_data}}
+      test_data: ${{parent.jobs.prep_data.outputs.test_data}}
+    outputs:
+      model_output:
+        type: mlflow_model
+    sampling_algorithm: random 
+    trial: ./train.yml  
+    search_space:
+      n_estimators:
+        type: choice
+        values: ["10", "25", "75", "100", "125", "150", "175", "200"]
+      max_depth:
+        type: choice  
+        values: ["2", "5", "10", "15", "20", None]  
+    objective:
+      goal: minimize
+      primary_metric: MSE
+    limits:
+      max_total_trials: 20
+      max_concurrent_trials: 10
+      timeout: 7200
 
-  # # Model registration job
-  # register_model:
-  #   name: register_model_job  
-  #   display_name: Model Registration  
-  #   code: ../../../data-science/src
-  #   command: >-
-  #     echo "Starting model registration job" &&    
-  #     python register.py 
-  #     --model_name ${{inputs.model_name}} 
-  #     --model_path ${{inputs.model_path}} 
-  #     --model_info_output_path ${{outputs.model_info_output_path}} &&
-  #     echo "Model registration job completed"
-  #   environment: azureml:used-cars-train-env@latest
-  #   inputs:
-  #     model_name: "used_cars_price_prediction_model"
-  #     model_path: ${{parent.jobs.sweep_step.outputs.model_output}}
-  #   outputs:
-  #     model_info_output_path: ${{parent.outputs.model_info_output_path}}
+  # Model registration job
+  register_model:
+    name: register_model_job  
+    display_name: Model Registration  
+    code: ../../../data-science/src
+    command: >-
+      echo "Starting model registration job" &&    
+      python register.py 
+      --model_name ${{inputs.model_name}} 
+      --model_path ${{inputs.model_path}} 
+      --model_info_output_path ${{outputs.model_info_output_path}} &&
+      echo "Model registration job completed"
+    environment: azureml:used-cars-train-env@latest
+    inputs:
+      model_name: "used_cars_price_prediction_model"
+      model_path: ${{parent.jobs.sweep_step.outputs.model_output}}
+    outputs:
+      model_info_output_path: ${{parent.outputs.model_info_output_path}}
 
