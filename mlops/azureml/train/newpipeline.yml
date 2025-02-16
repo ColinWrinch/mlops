@@ -31,7 +31,9 @@ jobs:
     display_name: Data Preparation  
     code: ../../../data-science/src
     command: python prep.py
-    environment: azureml:used-cars-train-env@latest
+    environment:
+      name: AzureML-sklearn-1.0@latest
+    # environment: azureml:used-cars-train-env@latest
 
   # # Data preparation job
   # prep_data:
